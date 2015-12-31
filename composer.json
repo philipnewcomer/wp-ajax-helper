@@ -1,0 +1,26 @@
+{
+	"name": "philipnewcomer/wp-ajax-helper",
+	"description": "A library to simplify AJAX requests in WordPress plugins and themes.",
+	"homepage": "https://github.com/philipnewcomer/wp-ajax-helper",
+	"license": "GPL-2.0+",
+	"authors": [
+		{
+			"name": "Philip Newcomer",
+			"email": "contact@philipnewcomer.net",
+			"homepage": "http://philipnewcomer.net",
+			"role": "Developer"
+		}
+	],
+	"keywords": [ "wordpress", "ajax" ],
+	"require": {
+		"php": ">=5.3"
+	},
+	"autoload": {
+		"psr-4": {
+			"PhilipNewcomer\\WP_Ajax_Helper\\": "src/components"
+		},
+		"files": [
+			"src/functions.php"
+		]
+	}
+}
