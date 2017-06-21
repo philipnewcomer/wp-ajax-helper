@@ -73,7 +73,10 @@ class Frontend {
 			return;
 		}
 
-		$script_url = home_url( str_replace( ABSPATH, '', dirname( dirname( __DIR__ ) ) ) . '/assets/js/wp-ajax-helper.js' );
+//		$script_url = home_url( str_replace( ABSPATH, '', dirname( dirname( __DIR__ ) ) ) . '/assets/js/wp-ajax-helper.js' );
+
+        $abs = self::normalize_path( ABSPATH);
+        $script_url = home_url( str_replace( $abs, '', self::normalize_path(dirname( dirname( __DIR__ ) )) ) . '/assets/js/wp-ajax-helper.js' );
 
 		wp_enqueue_script( 'wp-ajax-helper', $script_url, array( 'jquery' ), null, true );
 
@@ -101,4 +104,27 @@ class Frontend {
 
 		return $nonces;
 	}
+
+    /**
+     * `wp_normalize_path` wrapper for back-compat. Normalize a filesystem path.
+     *
+     * On windows systems, replaces backslashes with forward slashes
+     * and forces upper-case drive letters.
+     * Allows for two leading slashes for Windows network shares, but
+     * ensures that all other duplicate slashes are reduced to a single.
+     * @param string $path Path to normalize.
+     * @return string Normalized path.
+     */
+    protected static function normalize_path( $path ) {
+        if ( function_exists( 'wp_normalize_path' ) ) {
+            return wp_normalize_path( $path );
+        }
+        // Replace newer WP's version of wp_normalize_path.
+        $path = str_replace( '\\', '/', $path );
+        $path = preg_replace( '|(?<=.)/+|', '/', $path );
+        if ( ':' === substr( $path, 1, 1 ) ) {
+            $path = ucfirst( $path );
+        }
+        return $path;
+    }
 }
