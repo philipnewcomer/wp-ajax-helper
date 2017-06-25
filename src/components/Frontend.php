@@ -73,7 +73,7 @@ class Frontend {
 			return;
 		}
 
-		$script_url = home_url( str_replace( ABSPATH, '', dirname( dirname( __DIR__ ) ) ) . '/assets/js/wp-ajax-helper.js' );
+		$script_url = plugin_dir_url( trailingslashit( __DIR__ ) . '../../../' ) . 'assets/js/wp-ajax-helper.js';
 
 		wp_enqueue_script( 'wp-ajax-helper', $script_url, array( 'jquery' ), null, true );
 
